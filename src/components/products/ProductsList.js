@@ -2,7 +2,7 @@ import ProductItem from "./ProductItem";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getProducts } from "../../store/product-actions";
+// import { getProducts } from "../../store/product-actions";
 
 const ProductsList = () => {
   //   const dispatch = useDispatch();

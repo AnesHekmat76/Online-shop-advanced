@@ -1,4 +1,4 @@
-import Logo2 from "../../assets/Logo2.svg";
+import Logo2 from "../../assets/amazon3.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
