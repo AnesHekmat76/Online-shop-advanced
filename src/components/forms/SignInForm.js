@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASED_URL } from "../../constants";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../store/auth-slice";
@@ -62,7 +62,7 @@ const SignInForm = () => {
         setIsUserNameInvalid(false);
         setIsPasswordInvalid(false);
         setResponseMessage("");
-        navigate("../pollList");
+        navigate("../products");
       } catch (err) {
         setIsLoading(false);
         setResponseMessage(err.message);
@@ -107,7 +107,13 @@ const SignInForm = () => {
             }}
           />
         </div>
-        <div className="mt-4 lg:mt-8">
+        <div className="flex mt-2">
+          <p className="mr-3 text-gray-700">Don't have an account?</p>
+          <Link className="text-purple-800 underline" to="/signUp">
+            Create account
+          </Link>
+        </div>
+        <div className="mt-2 lg:mt-3">
           <LoadingButton
             loading={isLoading}
             className="w-full h-11"

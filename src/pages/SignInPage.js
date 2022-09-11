@@ -9,7 +9,7 @@ const SignInPage = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("../pollList");
+      navigate("../products");
     }
   }, [navigate, isLoggedIn]);
 
