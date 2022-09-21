@@ -63,9 +63,9 @@ const ProductItem = (props) => {
             size="small"
             onClick={addToCartEventHandler}
             variant="contained"
-            disabled={inventory === 0}
+            disabled={inventory.number === 0}
           >
-            {inventory > 0 ? "Add to cart" : "Unavailable"}
+            {inventory.number > 0 ? "Add to cart" : "Unavailable"}
           </Button>
         </div>
       </div>

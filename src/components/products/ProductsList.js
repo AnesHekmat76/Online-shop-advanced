@@ -29,7 +29,7 @@ const ProductsList = () => {
           dispatch(productAction.displayStatus("No product found"));
         }
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
         dispatch(uiAction.hideSpinner());
         dispatch(productAction.displayStatus(error.message));
       }

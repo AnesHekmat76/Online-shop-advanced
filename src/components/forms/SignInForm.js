@@ -5,6 +5,7 @@ import { BASED_URL } from "../../constants";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../store/auth-slice";
 import LoadingButton from "@mui/lab/LoadingButton";
+import axios from "axios";
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -21,6 +22,11 @@ const SignInForm = () => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
+    setResponseMessage("");
+    setUserNameErrorMessage("");
+    setIsUserNameInvalid(false);
+    setPasswordErrorMessage("");
+    setIsPasswordInvalid(false);
     if (
       userNameValue.trim().length === 0 ||
       passwordValue.trim().length === 0
@@ -39,33 +45,29 @@ const SignInForm = () => {
     const signIn = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `http://${BASED_URL}/user/signing?username=${userNameValue}&password=${passwordValue}`,
+        const response = await axios(
+          `http://localhost:8080/signing?username=${userNameValue}&password=${passwordValue}`,
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
           }
         );
         setIsLoading(false);
-        if (response.status > 399) {
-          setUserNameErrorMessage("Incorrect username");
-          setPasswordErrorMessage("Incorrect password");
-          setIsUserNameInvalid(true);
-          setIsPasswordInvalid(true);
-          throw new Error("Username or password is incorrect");
-        }
-
-        const data = await response.text();
-        dispatch(authAction.loginHandler(data));
         setIsUserNameInvalid(false);
         setIsPasswordInvalid(false);
         setResponseMessage("");
+        dispatch(authAction.loginHandler(response.data.token));
         navigate("../products");
       } catch (err) {
         setIsLoading(false);
-        setResponseMessage(err.message);
+        setUserNameErrorMessage("Incorrect username");
+        setPasswordErrorMessage("Incorrect password");
+        setIsUserNameInvalid(true);
+        setIsPasswordInvalid(true);
+        if (err.response.status === 403 || err.response.status === 404) {
+          setResponseMessage("Username or password is incorrect");
+          return;
+        }
+        setResponseMessage("Something went wrong");
       }
     };
     signIn();
@@ -74,7 +76,7 @@ const SignInForm = () => {
   return (
     <form
       onSubmit={onFormSubmit}
-      className="px-1 sm:p-8 py-6 lg:pb-4 sm:border sm:border-gray-300 rounded-lg sm:shadow-sm"
+      className="px-1 sm:p-8 py-6 sm:border sm:border-gray-300 rounded-lg sm:shadow-sm"
     >
       <h2 className="text-2xl text-gray-600 text-center">Sign-in</h2>
       <div className="flex flex-col mt-6 lg:mt-8">
@@ -123,10 +125,7 @@ const SignInForm = () => {
             Sing in
           </LoadingButton>
         </div>
-        <p className="text-error-red mt-4">
-          {responseMessage}
-          &nbsp;
-        </p>
+        <p className="text-error-red mt-4">{responseMessage}</p>
       </div>
     </form>
   );
