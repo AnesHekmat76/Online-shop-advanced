@@ -55,7 +55,7 @@ const SignInForm = () => {
         setIsUserNameInvalid(false);
         setIsPasswordInvalid(false);
         setResponseMessage("");
-        dispatch(authAction.loginHandler(response.data.token));
+        dispatch(authAction.loginHandler(response.data));
         navigate("../products");
       } catch (err) {
         setIsLoading(false);
@@ -109,6 +109,9 @@ const SignInForm = () => {
             }}
           />
         </div>
+        <Link className="text-purple-800 underline mt-4" to="/passwordRecovery">
+          Forgot password?
+        </Link>
         <div className="flex mt-2">
           <p className="mr-3 text-gray-700">Don't have an account?</p>
           <Link className="text-purple-800 underline" to="/signUp">

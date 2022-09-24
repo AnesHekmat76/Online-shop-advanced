@@ -18,6 +18,7 @@ const Navigation = () => {
   const [isProfileDialogDisplayed, setIsProfileDialogDisplayed] =
     useState(false);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const userName = useSelector((state) => state.auth.userName);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="border-b border-gray-300 py-3 px-4 sm:py-3 sm:px-6 mx-auto flex justify-between sticky top-0 bg-gray-50 shadow-sm z-10 items-center">
+      <nav className="py-3 px-4 sm:py-3 sm:px-6 mx-auto flex justify-between sticky top-0 bg-gray-50 shadow-md z-10 items-center">
         <Link to="/products">
           <div className="hover:opacity-75 transition-opacity">
             <img className="h-8" alt="logo" src={Logo2} />
@@ -56,12 +57,12 @@ const Navigation = () => {
                 setIsProfileDialogDisplayed((state) => !state);
               }}
             >
-              <PersonOutlineRoundedIcon className="text-gray-500 hover:text-gray-700 transition-all" />
+              <PersonOutlineRoundedIcon className="text-gray-500 hover:text-gray-700" />
             </button>
           )}
           <div className="relative inline ml-6 sm:ml-8">
             <Link to="/cart">
-              <ShoppingCartOutlinedIcon className="text-gray-500 hover:text-gray-700 transition-all" />
+              <ShoppingCartOutlinedIcon className="text-gray-500 hover:text-gray-700" />
             </Link>
             <div className="absolute inline">
               <Avatar
@@ -91,7 +92,7 @@ const Navigation = () => {
               className="py-3 px-4 text-gray-600 flex items-center"
             >
               <PersonOutlineRoundedIcon className="text-gray-500" />
-              <p className="ml-2">Moheb Moalem</p>
+              <p className="ml-2">{userName}</p>
             </Link>
           </div>
           <div

@@ -21,6 +21,7 @@ const AuthenticationForm = ({ hideAuthForm }) => {
   }, []);
 
   const onFormSubmit = (event) => {
+    console.log("here");
     event.preventDefault();
     if (authInputValue.length < 6) {
       setIsAuthInputInvalid(true);
@@ -57,6 +58,8 @@ const AuthenticationForm = ({ hideAuthForm }) => {
     signUp();
   };
 
+  const resendVerifyingCode = async () => {};
+
   const onAuthInputChange = (e) => {
     if (e.target.value.length > 6) {
       return;
@@ -74,7 +77,7 @@ const AuthenticationForm = ({ hideAuthForm }) => {
       <p className="text-gray-700 mt-8">
         Please enter the 6-digit code sent to your email
       </p>
-      <div className="flex flex-col mt-6 lg:mt-8">
+      <div className="mt-6 lg:mt-8">
         <div>
           <TextField
             type="number"
@@ -87,6 +90,16 @@ const AuthenticationForm = ({ hideAuthForm }) => {
             onChange={onAuthInputChange}
           />
         </div>
+        <p className="text-gray-700 inline-block">Did'nt get the code?</p>
+        <span>
+          <button
+            onClick={resendVerifyingCode}
+            className="ml-2 text-purple-800 underline"
+            type="button"
+          >
+            Resend
+          </button>
+        </span>
         <div className="mt-2 lg:mt-3">
           <LoadingButton
             loading={isLoading}

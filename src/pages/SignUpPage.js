@@ -7,7 +7,7 @@ import AuthenticationForm from "../components/forms/AuthenticationForm";
 const SignUpPage = () => {
   //   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const [isAuthFormDisplayed, setIsAuthFormDisplayed] = useState(false);
+  const [isAuthFormDisplayed, setIsAuthFormDisplayed] = useState(true);
   const displayAuthForm = () => {
     setIsAuthFormDisplayed(true);
   };
