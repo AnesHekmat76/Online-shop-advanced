@@ -2,29 +2,45 @@ import React, { useState } from "react";
 // import Button from "../UI/Button";
 import "./ProductItem.css";
 // import { cartAction } from "../../store/cart-slice";
-// import { useDispatch } from "react-redux";
-import { useCallback } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addItemToCart, getUserCart } from "../../store/cart-action";
+import { alertAction } from "../../store/alert-slice";
 
 const ProductItem = (props) => {
   const { id, name, price, imageUrl, inventory } = props.product;
+  const token = useSelector((state) => state.auth.token);
   const [favoriteButtonToolTipText, setFavoriteButtonToolTipText] =
     useState("Add to favorite");
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const addToCartEventHandler = useCallback(() => {
-    //   const selectedProduct = {
-    //     id,
-    //     name,
-    //     price,
-    //     quantity: 1,
-    //   };
-    //   dispatch(cartAction.addItem(selectedProduct));
-    console.log(id);
-  }, [id]);
+  const addToCartEventHandler = async () => {
+    // try {
+    //   const response = await axios({
+    //     method: "post",
+    //     url: `http://localhost:8080/cart/add-product/${id}`,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: token,
+    //     },
+    //   });
+    //   dispatch(getUserCart(token));
+    //   dispatch(
+    //     alertAction.showAlert({
+    //       message: "Added to cart",
+    //       type: "success",
+    //     })
+    //   );
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    dispatch(addItemToCart(token, id));
+  };
 
   const onFavoriteButtonClick = () => {
     setFavoriteButtonToolTipText("Added");

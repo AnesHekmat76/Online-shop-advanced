@@ -16,6 +16,8 @@ const ProductsList = () => {
     (state) => state.ui.isLoadingSpinnerDisplayed
   );
   const productStatus = useSelector((state) => state.product.status);
+  // const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  // const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const getAllProducts = async () => {
@@ -34,7 +36,26 @@ const ProductsList = () => {
         dispatch(productAction.displayStatus(error.message));
       }
     };
+
+    // const getUserCart = async () => {
+    //   try {
+    //     const response = await axios({
+    //       method: "get",
+    //       url: "http://localhost:8080/user/cart",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         Authorization: token,
+    //       },
+    //     });
+    //     console.log(response);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
     getAllProducts();
+    // if (isLoggedIn) {
+    //   getUserCart();
+    // }
   }, [dispatch]);
 
   // const productItems = [

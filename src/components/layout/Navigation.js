@@ -12,15 +12,28 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import { useEffect } from "react";
 import "./Navigation.css";
+// import axios from "axios";
+import { getUserCart } from "../../store/cart-action";
 
 const Navigation = () => {
   const [isProfileDialogDisplayed, setIsProfileDialogDisplayed] =
     useState(false);
+  // const [numberOfCartItems, setNumberOfCartItems] = useState(0);
+
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const userName = useSelector((state) => state.auth.userName);
+  const token = useSelector((state) => state.auth.token);
+  const numberOfCartItems = useSelector((state) => state.cart.numberOfItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(getUserCart(token));
+    }
+  }, [isLoggedIn, token, dispatch]);
 
   const onSignInButtonClick = () => {
     dispatch(authAction.logoutHandler());
@@ -60,25 +73,27 @@ const Navigation = () => {
               <PersonOutlineRoundedIcon className="text-gray-500 hover:text-gray-700" />
             </button>
           )}
-          <div className="relative inline ml-6 sm:ml-8">
-            <Link to="/cart">
-              <ShoppingCartOutlinedIcon className="text-gray-500 hover:text-gray-700" />
-            </Link>
-            <div className="absolute inline">
-              <Avatar
-                sx={{
-                  backgroundColor: "#e25141",
-                  width: "18px",
-                  height: "18px",
-                  fontSize: "12px",
-                }}
-                alt="Remy Sharp"
-                src="/broken-image.jpg"
-              >
-                {2}
-              </Avatar>
+          {isLoggedIn && (
+            <div className="relative inline ml-6 sm:ml-8">
+              <Link to="/cart">
+                <ShoppingCartOutlinedIcon className="text-gray-500 hover:text-gray-700" />
+                <div className="absolute inline">
+                  <Avatar
+                    sx={{
+                      backgroundColor: "#e25141",
+                      width: "18px",
+                      height: "18px",
+                      fontSize: "12px",
+                    }}
+                    alt="Remy Sharp"
+                    src="/broken-image.jpg"
+                  >
+                    {numberOfCartItems}
+                  </Avatar>
+                </div>
+              </Link>
             </div>
-          </div>
+          )}
         </div>
       </nav>
       {isProfileDialogDisplayed && (
