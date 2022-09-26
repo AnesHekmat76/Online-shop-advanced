@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-// import Button from "../UI/Button";
 import "./ProductItem.css";
-// import { cartAction } from "../../store/cart-slice";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
 import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -11,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addItemToCart, getUserCart } from "../../store/cart-action";
 import { alertAction } from "../../store/alert-slice";
+import { useNavigate } from "react-router-dom";
 
 const ProductItem = (props) => {
   const { id, name, price, imageUrl, inventory } = props.product;
@@ -18,28 +16,21 @@ const ProductItem = (props) => {
   const [favoriteButtonToolTipText, setFavoriteButtonToolTipText] =
     useState("Add to favorite");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const addToCartEventHandler = async () => {
-    // try {
-    //   const response = await axios({
-    //     method: "post",
-    //     url: `http://localhost:8080/cart/add-product/${id}`,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: token,
-    //     },
-    //   });
-    //   dispatch(getUserCart(token));
-    //   dispatch(
-    //     alertAction.showAlert({
-    //       message: "Added to cart",
-    //       type: "success",
-    //     })
-    //   );
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    dispatch(addItemToCart(token, id));
+    const error = await dispatch(addItemToCart(token, id));
+    if (error) {
+      if (error.response.status === 403) {
+        dispatch(
+          alertAction.showAlert({
+            message: "Sign in first",
+            type: "warning",
+          })
+        );
+        navigate("../signIn");
+      }
+    }
   };
 
   const onFavoriteButtonClick = () => {

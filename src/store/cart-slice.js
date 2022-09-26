@@ -20,7 +20,6 @@ const cartSlice = createSlice({
       for (let item of action.payload) {
         cartTotalPrice += item.product.price * item.number;
       }
-      console.log(cartTotalPrice);
       state.numberOfItems = numberOfCartItems;
       state.totalPrice = cartTotalPrice;
     },

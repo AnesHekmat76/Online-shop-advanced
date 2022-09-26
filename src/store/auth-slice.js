@@ -17,6 +17,8 @@ const authSlice = createSlice({
   reducers: {
     loginHandler(state, action) {
       state.token = action.payload.token;
+      state.userName = action.payload.firstname;
+      state.authority = action.payload.authorities[0].authority;
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("userName", action.payload.firstname);
       localStorage.setItem(

@@ -23,7 +23,7 @@ export const getUserCart = (token) => {
 export const addItemToCart = (token, productId) => {
   return async (dispatch) => {
     try {
-      const response = await axios({
+      await axios({
         method: "post",
         url: `http://localhost:8080/cart/add-product/${productId}`,
         headers: {
@@ -39,7 +39,13 @@ export const addItemToCart = (token, productId) => {
         })
       );
     } catch (error) {
-      console.log(error);
+      dispatch(
+        alertAction.showAlert({
+          message: "Something went wrong",
+          type: "error",
+        })
+      );
+      return error;
     }
   };
 };
@@ -47,7 +53,7 @@ export const addItemToCart = (token, productId) => {
 export const removeItemFromCart = (token, productId) => {
   return async (dispatch) => {
     try {
-      const response = await axios({
+      await axios({
         method: "delete",
         url: `http://localhost:8080/cart/remove-product/${productId}`,
         headers: {
@@ -63,7 +69,12 @@ export const removeItemFromCart = (token, productId) => {
         })
       );
     } catch (error) {
-      console.log(error);
+      dispatch(
+        alertAction.showAlert({
+          message: "Something went wrong",
+          type: "error",
+        })
+      );
     }
   };
 };
