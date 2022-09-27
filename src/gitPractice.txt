@@ -1,8 +1,2 @@
 Hey you
-tek
-Hello
-I am anes... 
-this is test1 branchsss
-Changes in sample branch
-Change2 sample branch
-test2 change
+sample
