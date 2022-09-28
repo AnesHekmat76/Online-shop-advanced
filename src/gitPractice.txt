@@ -2,5 +2,4 @@ Hey you
 sample223
 test222
 main22234
-changed from local
-changed from github
+changed from github22
