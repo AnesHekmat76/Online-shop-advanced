@@ -15,7 +15,7 @@ export const getUserCart = (token) => {
       });
       dispatch(cartAction.setCart(response.data.productItems));
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
 };
@@ -39,12 +39,6 @@ export const addItemToCart = (token, productId) => {
         })
       );
     } catch (error) {
-      dispatch(
-        alertAction.showAlert({
-          message: "Something went wrong",
-          type: "error",
-        })
-      );
       return error;
     }
   };
@@ -69,12 +63,7 @@ export const removeItemFromCart = (token, productId) => {
         })
       );
     } catch (error) {
-      dispatch(
-        alertAction.showAlert({
-          message: "Something went wrong",
-          type: "error",
-        })
-      );
+      return error;
     }
   };
 };

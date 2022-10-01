@@ -6,7 +6,7 @@ import { addItemToCart, removeItemFromCart } from "../../store/cart-action";
 import { useSelector } from "react-redux";
 import { alertAction } from "../../store/alert-slice";
 
-const CartItem = ({ item }) => {
+const FavoriteItem = ({ item }) => {
   const { id, name, imageUrl, price } = item.product;
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
@@ -76,4 +76,4 @@ const CartItem = ({ item }) => {
     </div>
   );
 };
-export default CartItem;
+export default FavoriteItem;

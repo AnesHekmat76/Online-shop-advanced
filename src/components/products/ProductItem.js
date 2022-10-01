@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "./ProductItem.css";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Tooltip from "@mui/material/Tooltip";
@@ -6,15 +5,14 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addItemToCart, getUserCart } from "../../store/cart-action";
+import { addItemToCart } from "../../store/cart-action";
 import { alertAction } from "../../store/alert-slice";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const ProductItem = (props) => {
   const { id, name, price, imageUrl, inventory } = props.product;
   const token = useSelector((state) => state.auth.token);
-  const [favoriteButtonToolTipText, setFavoriteButtonToolTipText] =
-    useState("Add to favorite");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,21 +27,56 @@ const ProductItem = (props) => {
           })
         );
         navigate("../signIn");
+      } else if (error.response) {
+        dispatch(
+          alertAction.showAlert({
+            message: "Some thing went wrong",
+            type: "error",
+          })
+        );
       }
     }
   };
 
-  const onFavoriteButtonClick = () => {
-    setFavoriteButtonToolTipText("Added");
-    setTimeout(() => {
-      setFavoriteButtonToolTipText("Add to favorite");
-    }, 1500);
-    console.log(id);
+  const onFavoriteButtonClick = async () => {
+    try {
+      await axios({
+        method: "post",
+        url: `http://localhost:8080/favorite/add-product/${id}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+      dispatch(
+        alertAction.showAlert({
+          message: "Added to favorites",
+          type: "success",
+        })
+      );
+    } catch (error) {
+      if (error.response.status === 403) {
+        dispatch(
+          alertAction.showAlert({
+            message: "Sign in first",
+            type: "warning",
+          })
+        );
+        navigate("../signIn");
+      } else {
+        dispatch(
+          alertAction.showAlert({
+            message: "Something went wrong",
+            type: "error",
+          })
+        );
+      }
+    }
   };
 
   return (
     <div className="border rounded-md border-gray-200 shadow-md my-4 w-full max-w-md mx-auto sm:max-w-none sm:w-46/100 sm:mx-2 md:mx-3 lg:w-3/10 xl:mx-5 relative">
-      <Tooltip title={favoriteButtonToolTipText} placement="top">
+      <Tooltip title="Add to favorite" placement="top">
         <button
           onClick={onFavoriteButtonClick}
           className="absolute right-5 top-5"
